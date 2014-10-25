@@ -221,7 +221,7 @@ public class Player
 
 	// evaluate this player's decision function at the given point
 	float threshold = 
-	    (float)(1.0 / (1.0 + exp(altruism  - conditions*certainty)));
+	    (float)(1.0/(1.0 + exp(altruism - conditions*certainty)));
 
 	// run player's random number generator
 	float mood = prng.nextFloat();
@@ -289,7 +289,5 @@ public class Player
 	player1.amnesia(mem_reset);
 	System.out.printf( "Decision: unsafe memories = %d \n", 
 			    player1.getDecision());
-	
-			
     }
 }
