@@ -4,7 +4,7 @@
 //@author Jessica Sorrell
 //@version 25-Oct-2014
 // 
-
+import java.util.ArrayList;
 import java.util.Random;
 import static java.lang.Math.*;
 
@@ -20,7 +20,7 @@ public class Player
     private final int cooperate = 1;
     private final int defect = -1;
 
-    private ArrayList<float> memories;
+    private ArrayList<Float> memories;
 
     // Public data members
     int life_points;
@@ -31,7 +31,7 @@ public class Player
 
     // Constructor
     public Player (int life_points, float altruism, float certainty, 
-		   int memory_span, Random prng){
+		   int memory_span, float optimism, Random prng){
 	
 	this.life_points = life_points;
 	this.altruism = altruism;
@@ -39,7 +39,10 @@ public class Player
 	this.memory_span = memory_span;
 	this.prng = prng;
 
-	this.memories = new ArrayList(memory_span);
+	this.memories = new ArrayList<Float>(memory_span);
+	for (int i = 0; i < memory_span; i++){
+	    memories.add(optimism);
+	}
     }  
 
     /**
@@ -96,7 +99,12 @@ public class Player
      **/
     void setMemory (int memory_span){
 	this.memory_span = memory_span;
-	this.memories = new ArrayList(memory_span);
+	this.memories = new ArrayList<Float>(memory_span);
+
+	for (int i = 0; i < memory_span; i++){
+	    memories.add((float)0.0);
+	}
+
     }
 
 
@@ -147,7 +155,7 @@ public class Player
 
     /**
      * setCertainty sets this player's level of certainty.
-n     * Certainty is defined as the b in 
+     * Certainty is defined as the b in 
      * f(x) = 1/(1 + e^(a - bx))
      *
      * @param  certainty  This player's new level of certainty
@@ -183,7 +191,7 @@ n     * Certainty is defined as the b in
 
 	// evaluate this player's decision function at the given point
 	float threshold = 
-	    (1 / (1 + exp(altruism  - conditions*certainty)));
+	    (float)(1 / (1 + exp(altruism  - conditions*certainty)));
 
 	// run player's random number generator
 	float mood = prng.nextFloat();
@@ -202,23 +210,86 @@ n     * Certainty is defined as the b in
      **/
     int getDecision (){
 
-	int conditions = 0;
-	int i;
+	float conditions = 0;
 
 	// take a weighted average of memories. recent memories
 	// are weighted more heavily.
-	for (i = 0; i < memory_span; i++){
-	    conditions += memories[i];
+	for (int i = 0; i < memory_span; i++){
+	    conditions += (i+1)*memories.get(i);
 	}
+	conditions /= (memory_span*(memory_span + 1)/2);
 
-	conditions
 	// evaluate this player's decision function at the given point
 	float threshold = 
-	    (1 / (1 + exp(altruism  - conditions*certainty)));
+	    (float)(1.0 / (1.0 + exp(altruism  - conditions*certainty)));
 
 	// run player's random number generator
 	float mood = prng.nextFloat();
 
 	// compare mood to threshold. cooperate or defect accordingly
 	return (mood <= threshold) ? cooperate : defect;
+    }
+
+
+
+    /**
+     * amnesia wipes memories and sets them all to the specified 
+     * value
+     *
+     * @param  optimism  baseline memories
+     **/
+    void amnesia (float optimism){
+
+	for (int i = 0; i < memory_span; i++){
+	    memories.set (i, optimism);
+	}
+    }
+
+
+    public static void main (String args[]){
+
+	int mem = 4;
+	Random prn = new Random();
+	float altruism = 0;
+	float certainty = 1;
+	int life = 10;
+	float optimism = (float)0.0;
+
+
+	Player player1 = 
+	    new Player (life, altruism, certainty, mem, optimism, prn);
+
+	
+	System.out.printf( "Life points: 10 = %d \n", player1.getLP() );
+	System.out.printf( "Altruism: 0 = %.2f \n", 
+			   player1.getAltruism());
+	System.out.printf( "Certainty: 1 = %.2f \n", 
+			    player1.getCertainty());
+	System.out.printf( "Mem: 4 = %d \n", player1.getMemory() );
+
+
+
+	System.out.printf( "Decision: Random = %d \n", 
+			    player1.getDecision((float)0.0));
+	System.out.printf( "Decision: Defect = %d \n", 
+			    player1.getDecision((float)-4.0));
+	System.out.printf( "Decision: Cooperate = %d \n",
+			    player1.getDecision( (float)4.0));
+	
+	System.out.printf( "Decision: based on neut memories = %d \n",
+			    player1.getDecision());
+	
+	float mem_reset = 4;
+	player1.amnesia(mem_reset);
+	
+	System.out.printf( "Decision: based on safe memories = %d \n",
+			    player1.getDecision());
+
+	mem_reset = -4;
+	player1.amnesia(mem_reset);
+	System.out.printf( "Decision: unsafe memories = %d \n", 
+			    player1.getDecision());
+	
+			
+    }
 }
