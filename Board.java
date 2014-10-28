@@ -40,24 +40,125 @@ public class Board {
     public Board (){
 
     }
+
     
-    
+    /**
+     * round runs a single round of this game. 
+     * The payoffs for each player playing with its nearest neighbors
+     * are calculated and life points are updated accordingly. Those
+     * whose life points fall to 0 or below are removed from the game
+     * and replaced with a new Player born from a nearest neighbor,
+     * chosen at random. 
+     **/
     void round (){
 
+	int world_width = world.size();
+	int world_height = world.get(0).size();
+
+	// Play PD Games and deal damage
+	for (int i = 0; i < world_width; i ++ ){
+
+	    ArrayList<Player> column = world.get(i);
+
+	    if( i-1 < 0 ){
+
+	    }
+	    ArrayList<Player> left_column = 
+		world.get((((i-1) % world_width) +
+			    world_width) % world_width);
+
+	    ArrayList<Player> right_column = 
+		world.get((((i-1) % world_width) +
+			    world_width) % world_width);
+
+	    for (int j = 0; j < world_height; j++ ){
+		
+		Player player = column.get(j);
+		Player north = column.get((((j+1) % world_height) 
+					   + world_height) %
+					  world_height);
+		Player east = right_column.get(j);
+		Player south = column.get((((j+1) % world_height) 
+					   + world_height) % 
+					  world_height);
+		Player west = left_column.get(j);
+	
+		int loss_of_life = 
+		    payoffs( player, north )[0] +
+		    payoffs( player, east )[0] + 
+		    payoffs( player, south )[0] + 
+		    payoffs( player, west )[0];
+		
+		player.increaseLP (loss_of_life);
+
+	    }		
+	}
+	// update the board
+	circleOfLife();
     } 
 
 
     /**
      * circleOfLife traverses the board and removes dead Players.
      * Dead Players are replaced with a new Player probabilistically 
-     * born from a nearby player. If everyone is dead, the game 
-     * ends prematurely, tragically.
+     * born from a nearby player.
      **/
     void circleOfLife(){
 
+	ArrayList<ArrayList<Player>> a_whole_new_world = world;
 
+	int world_width = world.size();
+	int world_height = world.get(0).size();
+
+	for (int i = 0; i < world_width; i ++ ){
+
+	    ArrayList<Player> column = world.get(i);
+
+	    for (int j = 0; j < world_height; j++ ){
+		
+		Player player = column.get(j);
+		
+		if (player.getLP() <= 0){
+
+		    float chooseParent = prng.nextFloat();
+		    Player parent;
+		    // if random number is < .25, choose player
+		    // to the north
+		    if (chooseParent < .25 ) {
+			parent = 
+			    world.get(i).get((((j-1) % world_height) 
+					      + world_height) %
+					     world_height);
+		    }
+		    // if .25 < x < .5, choose player to the east
+		    else if (chooseParent < .5 ){
+			parent = 
+			    world.get((((i-1) % world_width) +
+				       world_width) 
+				      % world_width).get(j);
+		    }
+		    // if .5 < x < .75, choose player to the south
+		    else if (chooseParent < .75 ){
+			parent = 
+			    world.get(i).get((((j+1) % world_height) 
+					      + world_height) %
+					     world_height);
+		    }
+		    // if .75 < x < 1, choose player to the west
+		    else {
+			parent = 
+			    world.get((((i-1) % world_width) +
+					world_width) 
+				      % world_width).get(j);
+		    }
+
+		    a_whole_new_world.get(i).set(j, parent.birth());
+		}
+	    }
+	}
+	this.world = a_whole_new_world;
     }
-
+    
 
     /**
      * payoffs calculates the payoffs or two players in a PD game.
@@ -96,6 +197,51 @@ public class Board {
     }
     
     
+    /**
+     * printBoard prints the current certainties of all players
+     * as well as the current life points of all players
+     **/
+
+    void printBoard(){
+
+
+	System.out.println("Certainties and LP of current players");
+	System.out.println("(certainties, lp):");
+
+	int world_width = world.size();
+	int world_height = world.get(0).size();
+
+	StringBuilder[] rowStates = new StringBuilder[world_height];
+	//	for (int i = 0; i < world_width; i ++ ){
+	
+
+	for (int j = 0; j < world_height; j++ ){
+	    rowStates[j] = new StringBuilder();
+	}
+	    
+	for (int j = 0; j < world_height; j++ ){
+	    
+	    rowStates[j].append(Integer.toString(j));
+	    rowStates[j].append(": \t");
+	 
+	    for (int i = 0; i < world_width; i++ ){
+		rowStates[j].append("( ");
+		rowStates[j].append
+		    (Float.toString
+		     (world.get(i).get(j).getCertainty()));
+		rowStates[j].append(", ");
+		rowStates[j].append
+		     (Float.toString
+		      (world.get(i).get(j).getLP()));
+		rowStates[j].append(") ");
+	    }
+	    rowStates[j].append("\n");
+	}
+	for (int j = 0; j < world_height; j++ ){
+	    System.out.println(rowStates[j].toString());
+	}
+    }
+
     
     public static void main (String args[]){
 	
@@ -193,7 +339,11 @@ public class Board {
 
 	for ( i = 0; i < rounds; i++ ){
 	    game.round();
+	    game.printBoard();
 	}
+
+	
+	//java Board -m 4 -n 4 -l 10 -c 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 -s 1 -t 3 -r 4
 
     }
 }

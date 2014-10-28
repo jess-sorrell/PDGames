@@ -22,6 +22,8 @@ public class Player
     private final int cooperate = 1;
     private final int defect = -1;
 
+    private final float PROB_MUTATION = (float)0.2;
+
     private ArrayList<Float> memories;
 
     // Public data members
@@ -283,8 +285,22 @@ public class Player
      **/
     Player birth (){
 	
-	return new Player( total_life, altruism, certainty, 
-			  memory_span, optimism, prng );
+	float mutation = prng.nextFloat();
+     	
+	if (mutation < PROB_MUTATION){
+
+	    float mutated_certainty = 
+		this.certainty +((float)(prng.nextFloat() - .5)/10);
+	    
+	    return new Player(  this.total_life, this.altruism,
+				mutated_certainty, this.memory_span, 
+				this.optimism, new Random());
+	    
+
+	}
+	return new Player( this.total_life, this.altruism,
+			   this.certainty, this.memory_span, 
+			   this.optimism, new Random());
     }
     
     public static void main (String args[]){
