@@ -7,6 +7,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 import static java.lang.Math.*;
+import java.util.Collections;
 
 public class Player
 {
@@ -16,6 +17,7 @@ public class Player
     private int memory_span;
     private float altruism;
     private float certainty;
+    private float optimism;
 
     private final int cooperate = 1;
     private final int defect = -1;
@@ -23,6 +25,7 @@ public class Player
     private ArrayList<Float> memories;
 
     // Public data members
+    int total_life;
     int life_points;
     
     // Default Constructor
@@ -32,12 +35,13 @@ public class Player
     // Constructor
     public Player (int life_points, float altruism, float certainty, 
 		   int memory_span, float optimism, Random prng){
-	
+	this.total_life = life_points;
 	this.life_points = life_points;
 	this.altruism = altruism;
 	this.certainty = certainty;
 	this.memory_span = memory_span;
 	this.prng = prng;
+	this.optimism = optimism;
 
 	this.memories = new ArrayList<Float>(memory_span);
 	for (int i = 0; i < memory_span; i++){
@@ -111,12 +115,33 @@ public class Player
     /**
      * getMemory returns this Player's memory span
      *
-     * @return  memory_span  This player's memory span
+     * @return  memory_span  This Player's memory span
      **/
     int getMemory (){
 	return memory_span;
     }
 
+    /**
+     * getMemories returns the ArrayList of this Player's memories
+     *
+     * @return  memories  This Player's memories
+     **/
+    ArrayList<Float> getMemories(){
+	return memories;
+    }
+
+    /**
+     * pushMemory adds a new value to the Player's memory array. If
+     * the player's memory is already full, this will push out the 
+     * oldest memory. Just like in real life.
+     *
+     * @param  mem_val  The value representing the memory
+     **/
+    void pushMemory (float mem_val){
+		
+	Collections.rotate(memories, -1);
+	memories.set( memory_span - 1, mem_val);
+    }
 
     /**
      * setPRNG sets the player's PRNG to the given PRNG
@@ -246,6 +271,22 @@ public class Player
     }
 
 
+
+    /**
+     * birth creates a new Player with the same relevant parameters
+     * as this Player.
+     *
+     * @return  offspring  born into a cruel game where the only
+     * way to win is not to play, our young heroine steps onto the
+     * battlefield. Perhaps she will be the one to change things.
+     * Perhaps she will be the one to end this twisted game.
+     **/
+    Player birth (){
+	
+	return new Player( total_life, altruism, certainty, 
+			  memory_span, optimism, prng );
+    }
+    
     public static void main (String args[]){
 
 	int mem = 4;
@@ -289,5 +330,29 @@ public class Player
 	player1.amnesia(mem_reset);
 	System.out.printf( "Decision: unsafe memories = %d \n", 
 			    player1.getDecision());
+
+
+	System.out.printf( "Memories: \n");
+	for (int i = 0; i < player1.getMemory(); i++ ){
+	    System.out.printf( "%d : %.2f \n", i, player1.getMemories().get(i));
+	}
+
+	player1.pushMemory((float)3.33);
+	System.out.printf( "Memories: \n");
+	for (int i = 0; i < player1.getMemory(); i++ ){
+	    System.out.printf( "%d : %.2f \n", i, player1.getMemories().get(i));
+	}
+
+	player1.pushMemory((float)2.22);
+	System.out.printf( "Memories: \n");
+	for (int i = 0; i < player1.getMemory(); i++ ){
+	    System.out.printf( "%d : %.2f \n", i, player1.getMemories().get(i));
+	}
+
+	player1.pushMemory((float)1.11);
+	System.out.printf( "Memories: \n");
+	for (int i = 0; i < player1.getMemory(); i++ ){
+	    System.out.printf( "%d : %.2f \n", i, player1.getMemories().get(i));
+	}
     }
 }

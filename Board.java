@@ -26,7 +26,9 @@ public class Board {
     private ArrayList<ArrayList<Player>> world;      //the game grid
     private ArrayList<Float> certainties[][]; //b values
     private int space_horizon;     //will implement later
+    // currently players can only see North, South, East, and West
    
+    
     public Board (ArrayList<ArrayList<Player>> world, 
 		  int space_horizon){ 
 
@@ -34,14 +36,69 @@ public class Board {
 	this.space_horizon = space_horizon;
     } 
     
+    // default constructor
+    public Board (){
+
+    }
+    
     
     void round (){
 
     } 
 
+
+    /**
+     * circleOfLife traverses the board and removes dead Players.
+     * Dead Players are replaced with a new Player probabilistically 
+     * born from a nearby player. If everyone is dead, the game 
+     * ends prematurely, tragically.
+     **/
+    void circleOfLife(){
+
+
+    }
+
+
+    /**
+     * payoffs calculates the payoffs or two players in a PD game.
+     * If both players cooperate, both lose 1 life point. If both
+     * players defect, both lose 2 life points. If one player
+     * cooperates and the other defects, then the cooperating player
+     * loses 3 life points and the defecting player loses 0 points.
+     *
+     * @params  player1  player of the PD game
+     * @params  player2  player of the PD game
+     * @return  payoffs  an int array of payoffs
+     **/
+    int[] payoffs( Player player1, Player player2){
+	
+	int decision1 = player1.getDecision();
+	int decision2 = player2.getDecision();
+	
+	if (decision1 > decision2){
+	    return new int[]{0, -3};
+	}
+
+	else if (decision1 == decision2){
+
+	    if( decision1 > 0){
+		return new int[]{-1, -1};
+	    }
+			       
+	    else{
+		return new int[]{-2, -2};
+	    }
+	}
+
+	else {
+	    return new int[]{-3, 0};
+	}
+    }
+    
+    
     
     public static void main (String args[]){
-
+	
 	int m = 0;
 	int n = 0;
 	float[] certainties = new float[0];
@@ -114,7 +171,6 @@ public class Board {
 
 
 	// Now that we're done with all that, we can begin our games!
-
 	ArrayList<ArrayList<Player>> players = 
 	    new ArrayList<ArrayList<Player>>(n);
 	
