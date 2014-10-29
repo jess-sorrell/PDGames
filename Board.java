@@ -219,28 +219,7 @@ public class Board {
 	this.world = a_whole_new_world;
     }
       
-    //Change payoff function to return 
-    /**
-     * payoffs calculates the payoffs or two players in a PD game.
-     * If both players cooperate, both lose 1 life point. If both
-     * players defect, both lose 2 life points. If one player
-     * cooperates and the other defects, then the cooperating player
-     * loses 3 life points and the defecting player loses 0 points.
-     *
-     * @params  player1  player of the PD game
-     * @params  player2  player of the PD game
-     * @return  payoffs  an int array of payoffs
-     **/
-    /*  int[] payoffs( Player player1, ArrayList<Player> opponents){
-
-	int decision1 = 0;
-	int decision2 = 0; 
-	for (int i = 0; i < opponents.size(); i++){ 
-	
-
-
-    }
-    */
+    
     /**
      * printBoard prints the current certainties of all players
      * as well as the current life points of all players
@@ -297,7 +276,7 @@ public class Board {
 	int rounds = 0;
 	int life_points = 0;
 	//float[] altruism = new float[0];   holding constant for now
-	float altruism = 0;
+	float altruism = -3;
 	//float[] optimism = new float[0];   starting at 0 for now
 	float optimism = 0;
 	

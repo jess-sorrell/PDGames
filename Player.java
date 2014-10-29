@@ -81,18 +81,6 @@ public class Player
 	this.life_points += add_life;
     }
 
-
-    /**
-     * decreaseLP subtracts the given number of life points from the 
-     * player's  total life points.
-     *
-     * @param  lose_life  the number of life points to subtract
-     **/
-    void decreaseLP (int lose_life){
-	this.life_points -= lose_life;
-    }
-
-
     /**
      * setMemory sets this Player's memory span to the given int.
      * A player's memory represents the player's time horizon, how
@@ -110,7 +98,6 @@ public class Player
 	for (int i = 0; i < memory_span; i++){
 	    memories.add((float)0.0);
 	}
-
     }
 
 
