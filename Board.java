@@ -24,16 +24,51 @@ public class Board {
     // hidden data members
     private Random prng = new Random();     
     private ArrayList<ArrayList<Player>> world;      //the game grid
-    private ArrayList<Float> certainties[][]; //b values
+
+    // These arrays hold the players' decision to defect or 
+    // cooperate each round
+    // There are separate arrays for games played between players
+    // on vertical axes and games player on horizontal axis.
+    // This is for simplicity's sake for the time being, but should
+    // be changed.
+    private ArrayList<ArrayList<DecisionPair>> vert_decisions;
+    private ArrayList<ArrayList<DecisionPair>> horiz_decisions;
+
+    private float[][] push_memories; //memory values
     private int space_horizon;     //will implement later
     // currently players can only see North, South, East, and West
    
     
     public Board (ArrayList<ArrayList<Player>> world, 
 		  int space_horizon){ 
-
+	int width = world.size();
+	int height = world.get(0).size();
 	this.world = world;
 	this.space_horizon = space_horizon;
+
+	push_memories = new float[width][height];
+
+	//create and initialize decision grids
+	vert_decisions = new ArrayList<ArrayList<DecisionPair>>();
+	for (int i = 0; i < width; i++ ){
+
+	    vert_decisions.add(new ArrayList<DecisionPair>(height));
+
+	    for (int j = 0; j < height; j++ ){
+		vert_decisions.get(i).add(new DecisionPair(0,0));
+	    }
+	}
+
+	//create and initialize decision grids
+	horiz_decisions = new ArrayList<ArrayList<DecisionPair>>();
+	for (int i = 0; i < width; i++ ){
+
+	    horiz_decisions.add(new ArrayList<DecisionPair>(height));
+
+	    for (int j = 0; j < height; j++ ){
+		horiz_decisions.get(i).add(new DecisionPair(0,0));
+	    }
+	}
     } 
     
     // default constructor
@@ -55,44 +90,75 @@ public class Board {
 	int world_width = world.size();
 	int world_height = world.get(0).size();
 
-	// Play PD Games and deal damage
+
+	// Play PD Games and save the outcomes
 	for (int i = 0; i < world_width; i ++ ){
 
+	    int east = (i+1) % world_width;
+	    int west = (i-1 + world_width) % world_width;
+	    
 	    ArrayList<Player> column = world.get(i);
 
-	    if( i-1 < 0 ){
-
-	    }
 	    ArrayList<Player> left_column = 
-		world.get((((i-1) % world_width) +
-			    world_width) % world_width);
+		world.get(west);
 
 	    ArrayList<Player> right_column = 
-		world.get((((i-1) % world_width) +
-			    world_width) % world_width);
+		world.get(east);
 
 	    for (int j = 0; j < world_height; j++ ){
+
+		int north = (j-1 + world_height) % world_height;
 		
 		Player player = column.get(j);
-		Player north = column.get((((j+1) % world_height) 
-					   + world_height) %
-					  world_height);
-		Player east = right_column.get(j);
-		Player south = column.get((((j+1) % world_height) 
-					   + world_height) % 
-					  world_height);
-		Player west = left_column.get(j);
-	
-		int loss_of_life = 
-		    payoffs( player, north )[0] +
-		    payoffs( player, east )[0] + 
-		    payoffs( player, south )[0] + 
-		    payoffs( player, west )[0];
-		
-		player.increaseLP (loss_of_life);
+		Player p_north = column.get(north);
+		Player p_east = right_column.get(j);
+
+		DecisionPair vertOutcome = 
+		    new DecisionPair(player.getDecision(),
+				     p_north.getDecision());
+
+		DecisionPair horizOutcome = 
+		    new DecisionPair(player.getDecision(),
+				     p_east.getDecision());
+
+		vert_decisions.get(i).set(j, vertOutcome);
+		horiz_decisions.get(i).set(j, horizOutcome);
 
 	    }		
 	}
+	
+	// traverse the board again and deal damage, push new
+	// memories
+	for ( int i = 0; i < world_width; i++ ){
+
+	    ArrayList<Player> column = world.get(i);
+
+	    for (int j = 0; j < world_height; j++ ){
+
+		Player player = column.get(j);
+
+		int south = (i+1) % world_height;
+		int west = (i-1 + world_width) % world_width;
+
+		int loss_of_life = 
+		    vert_decisions.get(i).get(j).getPayoffs()[0] +
+		    vert_decisions.get(i).get(south).getPayoffs()[1] +
+		    horiz_decisions.get(i).get(j).getPayoffs()[0] + 
+		    horiz_decisions.get(west).get(j).getPayoffs()[1];
+
+		player.increaseLP(loss_of_life);
+		
+		float new_memory = (float)
+		    (vert_decisions.get(i).get(j).decision1 +
+		     vert_decisions.get(i).get(south).decision2 +
+		     horiz_decisions.get(i).get(j).decision1 + 
+		     horiz_decisions.get(west).get(j).decision2);
+
+		player.pushMemory(new_memory);
+	    }
+	    
+	}
+	
 	// update the board
 	circleOfLife();
     } 
@@ -122,34 +188,28 @@ public class Board {
 
 		    float chooseParent = prng.nextFloat();
 		    Player parent;
+
+		    int east = (i+1) % world_width;
+		    int west = (i-1 + world_width) % world_width;
+		    int north = (j-1 + world_height) % world_height;
+		    int south = (j+1) % world_height;
+
 		    // if random number is < .25, choose player
 		    // to the north
 		    if (chooseParent < .25 ) {
-			parent = 
-			    world.get(i).get((((j-1) % world_height) 
-					      + world_height) %
-					     world_height);
+			parent = world.get(i).get(north);
 		    }
 		    // if .25 < x < .5, choose player to the east
 		    else if (chooseParent < .5 ){
-			parent = 
-			    world.get((((i-1) % world_width) +
-				       world_width) 
-				      % world_width).get(j);
+			parent = world.get(east).get(j);
 		    }
 		    // if .5 < x < .75, choose player to the south
 		    else if (chooseParent < .75 ){
-			parent = 
-			    world.get(i).get((((j+1) % world_height) 
-					      + world_height) %
-					     world_height);
+			parent = world.get(i).get(south);
 		    }
 		    // if .75 < x < 1, choose player to the west
 		    else {
-			parent = 
-			    world.get((((i-1) % world_width) +
-					world_width) 
-				      % world_width).get(j);
+			parent = world.get(west).get(j);
 		    }
 
 		    a_whole_new_world.get(i).set(j, parent.birth());
@@ -158,8 +218,8 @@ public class Board {
 	}
 	this.world = a_whole_new_world;
     }
-    
-
+      
+    //Change payoff function to return 
     /**
      * payoffs calculates the payoffs or two players in a PD game.
      * If both players cooperate, both lose 1 life point. If both
@@ -171,32 +231,16 @@ public class Board {
      * @params  player2  player of the PD game
      * @return  payoffs  an int array of payoffs
      **/
-    int[] payoffs( Player player1, Player player2){
+    /*  int[] payoffs( Player player1, ArrayList<Player> opponents){
+
+	int decision1 = 0;
+	int decision2 = 0; 
+	for (int i = 0; i < opponents.size(); i++){ 
 	
-	int decision1 = player1.getDecision();
-	int decision2 = player2.getDecision();
-	
-	if (decision1 > decision2){
-	    return new int[]{0, -3};
-	}
 
-	else if (decision1 == decision2){
 
-	    if( decision1 > 0){
-		return new int[]{-1, -1};
-	    }
-			       
-	    else{
-		return new int[]{-2, -2};
-	    }
-	}
-
-	else {
-	    return new int[]{-3, 0};
-	}
     }
-    
-    
+    */
     /**
      * printBoard prints the current certainties of all players
      * as well as the current life points of all players
@@ -222,7 +266,7 @@ public class Board {
 	for (int j = 0; j < world_height; j++ ){
 	    
 	    rowStates[j].append(Integer.toString(j));
-	    rowStates[j].append(": \t");
+	    rowStates[j].append(": ");
 	 
 	    for (int i = 0; i < world_width; i++ ){
 		rowStates[j].append("( ");
@@ -338,6 +382,7 @@ public class Board {
 	Board game = new Board(players, space_horizon);
 
 	for ( i = 0; i < rounds; i++ ){
+	    System.out.printf("Round %d: \n", i);
 	    game.round();
 	    game.printBoard();
 	}
