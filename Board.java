@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import static java.lang.Math.*;
 import java.lang.StringBuilder;
+import java.util.Collections;
 
 public class Board {
 
@@ -265,7 +266,118 @@ public class Board {
 	}
     }
 
-    
+
+    /**
+     * summaryStats prints everything you need, nothing you don't
+     **/
+    public void printSummaryStats(){
+
+	int world_width = world.size();
+	int world_height = world.get(0).size();
+
+	float mean_certainty;
+	float max_certainty;
+	float min_certainty;
+	float median_certainty = 0;
+	float sum = 0;
+
+	ArrayList<Float> certs = 
+	    new ArrayList<Float>(world_width * world_height);
+
+	for (int i = 0; i < world_width; i ++ ){
+	    
+	    ArrayList<Player> column = world.get(i);
+	    
+	    for (int j = 0; j < world_height; j++ ){
+		// add this certainty to the list
+		certs.add(column.get(j).getCertainty());
+		// add this certainty to the sum
+		sum += column.get(j).getCertainty();
+	    }
+	}
+	// calculate average certainty
+	mean_certainty = sum/(world_width * world_height);
+	
+	// sort the certainties and calculate stats
+	Collections.sort(certs);
+	max_certainty = certs.get(world_width * world_height - 1);
+	min_certainty = certs.get(0);
+	median_certainty = 
+	    certs.get((int)((world_width * world_height - 1 )/2));
+
+	System.out.printf("World is %d x %d \n",
+			  world_height, world_width);
+	System.out.printf("Median b = \t %.2f \n", median_certainty);
+	System.out.printf("Mean b = \t %.2f \n", mean_certainty);
+	System.out.printf("Max b = \t %.2f \n", max_certainty);
+	System.out.printf("Min b = \t %.2f \n", min_certainty);
+
+	// if median is at least 5% greater than the mean, print
+	// skew left message.
+	if ((median_certainty - mean_certainty) > 
+	    (0.05*mean_certainty)) {
+	    System.out.println("Median > mean. Could be skewed left.");
+	}
+	// if median as at least 5% less than the mean, print skew
+	// right message.
+	else if ((mean_certainty - median_certainty) > 
+		 (0.05*mean_certainty)) {
+	    System.out.println("Median < mean. Could be skewed right.");
+	}
+    }
+
+    /**
+     * getSummaryStats returns everything you need, nothing you don't
+     *
+     * @return  stats  float array where
+     * stats[0] = mean certainty
+     * stats[1] = median certainty
+     * stats[2] = max certainty
+     * stats[3] = min certainty
+     * stats[4] = number of players
+     **/
+    public float[] getSummaryStats(){
+
+	int world_width = world.size();
+	int world_height = world.get(0).size();
+
+	float[] stats = new float[5];
+
+	float mean_certainty;
+	float max_certainty;
+	float min_certainty;
+	float median_certainty = 0;
+	float sum = 0;
+
+	ArrayList<Float> certs = 
+	    new ArrayList<Float>(world_width * world_height);
+
+	for (int i = 0; i < world_width; i ++ ){
+	    
+	    ArrayList<Player> column = world.get(i);
+	    
+	    for (int j = 0; j < world_height; j++ ){
+		// add this certainty to the list
+		certs.add(column.get(j).getCertainty());
+		// add this certainty to the sum
+		sum += column.get(j).getCertainty();
+	    }
+	}
+	// calculate average certainty
+	stats[0] = sum/(world_width * world_height);
+	
+	// sort the certainties and calculate stats
+	Collections.sort(certs);
+	stats[2] = certs.get(world_width * world_height - 1);
+	stats[3] = certs.get(0);
+	stats[1] = 
+	    certs.get((int)((world_width * world_height - 1 )/2));
+	stats[4] = (float)world_height * world_width;
+
+	return stats;
+    }
+
+
     public static void main (String args[]){
 	
 	int m = 0;
