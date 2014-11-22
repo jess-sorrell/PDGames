@@ -124,6 +124,8 @@ public class Board {
 
 		vert_decisions.get(i).set(j, vertOutcome);
 		horiz_decisions.get(i).set(j, horizOutcome);
+		//	System.out.printf("Decisions for player %d, %d in game to its north: (%d, %d)\n", j, i, vertOutcome.getPayoffs()[0], vertOutcome.getPayoffs()[1]);
+		//	System.out.printf("Decisions for player %d, %d in game to its east: (%d, %d) \n", j, i, horizOutcome.getPayoffs()[0], horizOutcome.getPayoffs()[1]);
 
 	    }		
 	}
@@ -138,7 +140,7 @@ public class Board {
 
 		Player player = column.get(j);
 
-		int south = (i+1) % world_height;
+		int south = (j+1) % world_height;
 		int west = (i-1 + world_width) % world_width;
 
 		int loss_of_life = 
@@ -146,6 +148,8 @@ public class Board {
 		    vert_decisions.get(i).get(south).getPayoffs()[1] +
 		    horiz_decisions.get(i).get(j).getPayoffs()[0] + 
 		    horiz_decisions.get(west).get(j).getPayoffs()[1];
+		//	System.out.printf("Player %d, %d loses %d life \n",
+		//				  j, i, loss_of_life);
 
 		player.increaseLP(loss_of_life);
 		
@@ -186,7 +190,8 @@ public class Board {
 		Player player = column.get(j);
 		
 		if (player.getLP() <= 0){
-
+		    
+		    //	    System.out.printf("Player %d,%d has died \n", j, i);
 		    float chooseParent = prng.nextFloat();
 		    Player parent;
 
@@ -212,8 +217,9 @@ public class Board {
 		    else {
 			parent = world.get(west).get(j);
 		    }
-
+		
 		    a_whole_new_world.get(i).set(j, parent.birth());
+		    //		    System.out.printf("New player at %d,%d has certainty %.3f \n", j, i, a_whole_new_world.get(i).get(j).getCertainty());
 		}
 	    }
 	}
@@ -334,14 +340,16 @@ public class Board {
      * stats[1] = median certainty
      * stats[2] = max certainty
      * stats[3] = min certainty
-     * stats[4] = number of players
+     * stats[4] = empty
+     * stats[5] = empty
+     * stats[6] = number of players
      **/
     public float[] getSummaryStats(){
 
 	int world_width = world.size();
 	int world_height = world.get(0).size();
 
-	float[] stats = new float[5];
+	float[] stats = new float[7];
 
 	float mean_certainty;
 	float max_certainty;
@@ -372,9 +380,79 @@ public class Board {
 	stats[3] = certs.get(0);
 	stats[1] = 
 	    certs.get((int)((world_width * world_height - 1 )/2));
-	stats[4] = (float)world_height * world_width;
+	stats[6] = (float)world_height * world_width;
 
 	return stats;
+    }
+
+    /**
+     * percentLessThan takes a float x and returns the percentage of
+     * the population with certainties less than that value
+     *
+     * @param  x  the certainty value of interest
+     *
+     * @return  the pop % with certainties less than x
+     **/
+    float percentLessThan ( float x ){
+	int world_width = world.size();
+	int world_height = world.get(0).size();
+
+	float popPercentage = 0;;    //the percentage to return
+
+	for (int i = 0; i < world_width; i ++ ){
+	    
+	    ArrayList<Player> column = world.get(i);
+	    
+	    for (int j = 0; j < world_height; j++ ){
+
+		if ( column.get(j).getCertainty() < x ){
+		    popPercentage += 1;
+		}
+	    }
+	    
+	}
+	return (popPercentage/(world_width * world_height));
+    }
+    /**
+     * percentGreaterEqualThan returns the percentage of the population
+     * with a certainty greater than x
+     *
+     * @param  x  the certainty value of interest
+     *
+     * @return  the pop % with certainties less than x
+     **/
+    float percentGreaterEqualThan (float x ){
+	return ((float)1.0 - percentLessThan(x));
+    }
+
+
+    void markPlayersGreaterThan( float cert ){
+
+	int world_width = world.size();
+	int world_height = world.get(0).size();
+
+	for (int i = 0; i < world_height; i ++ ){
+	    
+	    for (int j = 0; j < world_width; j ++ ){
+		System.out.printf("__");
+	    }
+
+	    System.out.printf("_\n");
+	    System.out.printf("|");
+	    for (int j = 0; j < world_width; j++ ){
+		if (world.get(j).get(i).getCertainty() > cert ){
+		    System.out.printf("o|");
+		}
+		else{
+		    System.out.printf(" |");
+		}
+	    }
+	    System.out.printf("\n");
+	}
+	System.out.println();
+	System.out.println("****************************************");
+	System.out.println("****************************************");
+	System.out.println();
     }
 
 

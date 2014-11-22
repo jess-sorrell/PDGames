@@ -15,7 +15,7 @@ public class Player
     // Hidden data members
     private Random prng;
     private int memory_span;
-    private float altruism;
+    private float misanthropy;
     private float certainty;
     private float optimism;
 
@@ -35,11 +35,11 @@ public class Player
     }
 
     // Constructor
-    public Player (int life_points, float altruism, float certainty, 
+    public Player (int life_points, float misanthropy, float certainty, 
 		   int memory_span, float optimism, Random prng){
 	this.total_life = life_points;
 	this.life_points = life_points;
-	this.altruism = altruism;
+	this.misanthropy = misanthropy;
 	this.certainty = certainty;
 	this.memory_span = memory_span;
 	this.prng = prng;
@@ -144,26 +144,26 @@ public class Player
 
 
     /**
-     * setAltruism sets this player's level of altruism. 
-     * Altruism is defined as the a in 
+     * setMisanthropy sets this player's level of misanthropy. 
+     * Misanthropy is defined as the a in 
      * f(x) = 1/(1 + e^(a - bx))
      *
-     * @param  altruism  This player's new level of altruism
+     * @param  misanthropy  This player's new level of misanthropy
      **/
-    void setAltruism (float altruism){
-	this.altruism = altruism;
+    void setMisanthropy (float misanthropy){
+	this.misanthropy = misanthropy;
     }
 
 
     /**
-     * getAltruism returns this player's level of altruism.
-     * Altruism is defined as the a in 
+     * getMisanthropy returns this player's level of misanthropy.
+     * Misanthropy is defined as the a in 
      * f(x) = 1/(1 + e^(a - bx))
      *
-     * @return  altruism  This player's altruism
+     * @return  misanthropy  This player's misanthropy
      **/
-    float getAltruism (){
-	return altruism;
+    float getMisanthropy (){
+	return misanthropy;
     }
 
 
@@ -205,7 +205,7 @@ public class Player
 
 	// evaluate this player's decision function at the given point
 	float threshold = 
-	    (float)(1 / (1 + exp(altruism  - conditions*certainty)));
+	    (float)(1 / (1 + exp(misanthropy  - conditions*certainty)));
 
 	// run player's random number generator
 	float mood = prng.nextFloat();
@@ -235,7 +235,7 @@ public class Player
 
 	// evaluate this player's decision function at the given point
 	float threshold = 
-	    (float)(1.0/(1.0 + exp(altruism - conditions*certainty)));
+	    (float)(1.0/(1.0 + exp(misanthropy - conditions*certainty)));
 
 	// run player's random number generator
 	float mood = prng.nextFloat();
@@ -263,7 +263,7 @@ public class Player
 
     /**
      * birth creates a new Player with the same relevant parameters
-     * as this Player.
+     * as this Player, with the probability of some small mutation.
      *
      * @return  offspring  born into a cruel game where the only
      * way to win is not to play, our young heroine steps onto the
@@ -277,15 +277,16 @@ public class Player
 	if (mutation < PROB_MUTATION){
 
 	    float mutated_certainty = 
-		this.certainty +((float)(prng.nextFloat() - .5)/10);
+		max(0, this.certainty +((float)(prng.nextFloat() - .5)/10));
 	    
-	    return new Player(  this.total_life, this.altruism,
+	    
+	    return new Player(  this.total_life, this.misanthropy,
 				mutated_certainty, this.memory_span, 
 				this.optimism, new Random());
 	    
 
 	}
-	return new Player( this.total_life, this.altruism,
+	return new Player( this.total_life, this.misanthropy,
 			   this.certainty, this.memory_span, 
 			   this.optimism, new Random());
     }
@@ -294,19 +295,19 @@ public class Player
 
 	int mem = 4;
 	Random prn = new Random();
-	float altruism = 0;
+	float misanthropy = 0;
 	float certainty = 1;
 	int life = 10;
 	float optimism = (float)0.0;
 
 
 	Player player1 = 
-	    new Player (life, altruism, certainty, mem, optimism, prn);
+	    new Player (life, misanthropy, certainty, mem, optimism, prn);
 
 	
 	System.out.printf( "Life points: 10 = %d \n", player1.getLP() );
-	System.out.printf( "Altruism: 0 = %.2f \n", 
-			   player1.getAltruism());
+	System.out.printf( "Misanthropy: 0 = %.2f \n", 
+			   player1.getMisanthropy());
 	System.out.printf( "Certainty: 1 = %.2f \n", 
 			    player1.getCertainty());
 	System.out.printf( "Mem: 4 = %d \n", player1.getMemory() );
