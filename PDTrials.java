@@ -16,23 +16,24 @@ public class PDTrials {
     Random prng = new Random();
     int num_trials;
     
+    
 
     // These should probably be held constant for each set of 
     // trials, at least for the time being
     int space_horizon = 1;
     int time_horizon = 3;
-    int life_points = 10;
-    int num_rounds = 200;
+    int life_points = 50;
+    int num_rounds = 2000;
     float deviant_ratio = (float).25;
     
     // Let's start things off sort of neutral
-    float misanthropy = (float)-2.0;
-    float optimism = (float)2.0;
+    float misanthropy = (float)0.0;
+    float optimism = (float)0.0;
     
     // Collect information on large Boards
     // m rows, n columns
-    int m = 20;
-    int n = 20;
+    int m = 100;
+    int n = 100;
     float[] certainties = new float[m*n];
     
     int t; //index for looping through trials
@@ -74,9 +75,11 @@ public class PDTrials {
 		for ( j = 0; j < m; j++ ){
 		    
 		    column.add(new Player
-			       ( life_points, misanthropy, 
-				 certainties[n*i + j], 
-				 time_horizon, optimism, new Random()));
+			       ( life_points,
+				 certainties[m*i + j]* misanthropy, 
+				 certainties[m*i + j], 
+				 time_horizon, optimism, 
+				 new Random()));
 		}
 		
 		players.add(column);
@@ -93,10 +96,10 @@ public class PDTrials {
 	    // play the game
 	    for (i = 0; i < num_rounds; i++ ){
 		game.round();
-		if( i % 25 == 0){
-		    game.markPlayersGreaterThan
-			((float)(starts[t][1] + 0.025));
-		}
+		// if( i % 25 == 0){
+		//     game.markPlayersGreaterThan
+		// 	((float)(starts[t][1] + 0.025));
+		// 	}
 	    }
 
 	    // print the end state of the game and store these stats
@@ -231,7 +234,7 @@ public class PDTrials {
 	    
 	    for(i = 0; i < num_deviants; i++ ){
 		int index = prng.nextInt(m*n);
-		certainties[index] = prng.nextFloat() + (float)4.0;
+		certainties[index] = prng.nextFloat() + (float)2.5;
 		
 	    }
 	    
@@ -252,9 +255,11 @@ public class PDTrials {
 		for ( j = 0; j < m; j++ ){
 		    
 		    column.add(new Player
-			       ( life_points, misanthropy, 
-				 certainties[n*i + j], 
-				 time_horizon, optimism, new Random()));
+			       ( life_points, 
+				 certainties[m*i + j]* misanthropy,
+				 certainties[m*i + j], 
+				 time_horizon, optimism, 
+				 new Random()));
 		}
 		
 		players.add(column);
@@ -271,10 +276,10 @@ public class PDTrials {
 	    // play the game
 	    for (i = 0; i < num_rounds; i++ ){
 		game.round();
-		if( i % 25 == 0){
-		    game.markPlayersGreaterThan
-			((float)(starts[t][1] + 0.025));
-		}
+		// if( i % 25 == 0){
+		//     game.markPlayersGreaterThan
+		// 	((float)(starts[t][1] + 0.025));
+		// 	}
 	    }
 
 	    // print the end state of the game and store these stats
@@ -423,9 +428,11 @@ public class PDTrials {
 		for ( j = 0; j < m; j++ ){
 		    
 		    column.add(new Player
-			       ( life_points, misanthropy, 
-				 certainties[n*i + j], 
-				 time_horizon, optimism, new Random()));
+			       ( life_points, 
+				 certainties[m*i + j]*misanthropy, 
+				 certainties[m*i + j], 
+				 time_horizon, optimism, 
+				 new Random()));
 		}
 		
 		players.add(column);
@@ -441,10 +448,10 @@ public class PDTrials {
 	    // play the game
 	    for (i = 0; i < num_rounds; i++ ){
 		game.round();
-		if( i % 25 == 0){
-		    game.markPlayersGreaterThan
-			((float)(starts[t][1] + 0.025));
-		}
+		// if( i % 25 == 0){
+		//     game.markPlayersGreaterThan
+		// 	((float)(starts[t][1] + 0.025));
+		// 	}
 	    }
 
 	    // print the end state of the game and store these stats
@@ -592,7 +599,7 @@ public class PDTrials {
 
 		// large certainty
 		certainties[itr.next()] = 
-		    prng.nextFloat() + (float)4.0;
+		    prng.nextFloat() + (float)2.5;
 		
 		// smaller certainty
 		certainties[itr.next()] = 
@@ -613,9 +620,11 @@ public class PDTrials {
 		for ( j = 0; j < m; j++ ){
 		    
 		    column.add(new Player
-			       ( life_points, misanthropy, 
-				 certainties[n*i + j], 
-				 time_horizon, optimism, new Random()));
+			       ( life_points, 
+				 certainties[m*i + j]*misanthropy,  
+				 certainties[m*i + j], 
+				 time_horizon, optimism, 
+				 new Random()));
 		}
 		
 		players.add(column);
@@ -631,10 +640,10 @@ public class PDTrials {
 	    // play the game
 	    for (i = 0; i < num_rounds; i++ ){
 		game.round();
-		if( i % 25 == 0){
-		    game.markPlayersGreaterThan
-			((float)(starts[t][1] + 0.025));
-		}
+		// if( i % 25 == 0){
+		//     game.markPlayersGreaterThan
+		// 	((float)(starts[t][1] + 0.025));
+		// 	}
 	    }
 
 	    // print the end state of the game and store these stats
@@ -775,7 +784,7 @@ public class PDTrials {
 
 		// large certainty
 		certainties[itr.next()] = 
-		    prng.nextFloat() + (float)4.0;
+		    prng.nextFloat() + (float)2.5;
 		
 		// smaller certainty
 		certainties[itr.next()] = 
@@ -796,9 +805,11 @@ public class PDTrials {
 		for ( j = 0; j < m; j++ ){
 		    
 		    column.add(new Player
-			       ( life_points, misanthropy, 
+			       ( life_points, 
+				 certainties[m*i + j]*misanthropy,  
 				 certainties[m*i + j], 
-				 time_horizon, optimism, new Random()));
+				 time_horizon, optimism, 
+				 new Random()));
 		}
 		
 		players.add(column);
@@ -814,10 +825,10 @@ public class PDTrials {
 	    // play the game
 	    for (i = 0; i < num_rounds; i++ ){
 		game.round();
-		if( i % 25 == 0){
-		    game.markPlayersGreaterThan
-			((float)(starts[t][1] + 0.025));
-		}
+		// if( i % 25 == 0){
+		//     game.markPlayersGreaterThan
+		// 	((float)(starts[t][1] + 0.025));
+		// }
 	    }
 
 	    // print the end state of the game and store these stats
