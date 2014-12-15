@@ -22,13 +22,13 @@ public class PDTrials {
     // trials, at least for the time being
     int space_horizon = 1;
     int time_horizon = 3;
-    int life_points = 50;
-    int num_rounds = 2000;
+    int life_points = 10;
+    int num_rounds = 100;
     float deviant_ratio = (float).25;
     
     // Let's start things off sort of neutral
-    float misanthropy = (float)0.0;
-    float optimism = (float)0.0;
+    float misanthropy = (float)-0.07;
+    float optimism = (float)0.07;
     
     // Collect information on large Boards
     // m rows, n columns
@@ -89,7 +89,7 @@ public class PDTrials {
 	    Board game = new Board(players, space_horizon);
 	    starts[t] = game.getSummaryStats();
 	    starts[t][4] = game.percentGreaterEqualThan(starts[t][1]);
-	    //	    System.out.println("Start.");
+	    //	    System.out.println("Start.\\\\");
 	    //game.printSummaryStats();
 
    
@@ -136,10 +136,10 @@ public class PDTrials {
 	
 	// Print summary of games
 	
-	System.out.println("**************************************");
-	System.out.println("**************************************");
-	
-	System.out.printf("Certainties ranging from .5 to 1.5, uniformly distributed \n");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
+	System.out.printf("Summary of games for the following population: \\\\ \n");
+	System.out.printf("Certainties ranging from .5 to 1.5, uniformly distributed \n\\\\");
 
 	
 	System.out.printf("Average startstate median:\t %.2f \n",
@@ -180,10 +180,10 @@ public class PDTrials {
 
 	// Print summary of games
 
-	System.out.println("**************************************");
-	System.out.println("**************************************");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
 
-	System.out.printf("Certainties ranging from .5 to 1.5, uniformly distributed \n");
+	System.out.printf("Certainties ranging from .5 to 1.5, uniformly distributed \n\\\\");
 
 	
 	System.out.printf("Average endstate median:\t %.2f \n",
@@ -195,26 +195,14 @@ public class PDTrials {
 	System.out.printf("Average endstate min:\t \t %.2f \n",
 			  min_avg);
 
-	System.out.printf("Final proportion greater than starting median:\t %.3f \n", median_proportion);
-	System.out.printf("Final proportion greater than starting average: %.3f \n", avg_proportion);
+	System.out.printf("Final population proportion greater than starting median:\t %.3f \n", median_proportion);
+	System.out.printf("Final population proportion greater than starting average: %.3f \n", avg_proportion);
 	
-	// if median is at least 5% greater than the mean, print
-	// skew left message.
-	if ((median_avg - mean_avg) > 
-	    (0.05*mean_avg)) {
-	    System.out.println("Median > mean. Could be skewed left.");
-	}
-	// if median as at least 5% less than the mean, print skew
-	// right message.
-	else if ((mean_avg - median_avg) > 
-		 (0.05*mean_avg)) {
-	    System.out.println("Median < mean. Could be skewed right.");
-	}
 
-	System.out.println("**************************************");
-	System.out.println("**************************************");
-	System.out.println("");
-	System.out.println("");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
+	System.out.println("\\\\");
+	System.out.println("\\\\");
     }
 
     void largeB(){
@@ -267,7 +255,7 @@ public class PDTrials {
 	    
 	    // build the game board
 	    Board game = new Board(players, space_horizon);
-	    //    System.out.println("Start");
+	    //    System.out.println("Start\\\\");
 	    //	    game.printSummaryStats();
 	    starts[t] = game.getSummaryStats();
 	    starts[t][4] = game.percentGreaterEqualThan(starts[t][1]);
@@ -284,7 +272,7 @@ public class PDTrials {
 
 	    // print the end state of the game and store these stats
 	    // in array
-	    //  System.out.println("Finish");
+	    //  System.out.println("Finish\\\\");
 	    //	    game.printSummaryStats();
 	    results[t] = game.getSummaryStats();
 	    results[t][4] = game.percentGreaterEqualThan(starts[t][1]);
@@ -317,9 +305,9 @@ public class PDTrials {
 	
 	// Print summary of games
 	
-	System.out.println("**************************************");
-	System.out.println("**************************************");
-	
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
+	System.out.printf("Summary of games for the following population: \\\\ \n");
 	System.out.printf("%.3f very large certainty values\n", 
 			  deviant_ratio);
 
@@ -362,8 +350,8 @@ public class PDTrials {
 
 	// Print summary of games
 
-	System.out.println("**************************************");
-	System.out.println("**************************************");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
 
 	System.out.printf("%.3f very large certainty values \n",
 			  deviant_ratio);
@@ -373,26 +361,14 @@ public class PDTrials {
 	System.out.printf("Average endstate mean:\t \t %.2f \n",mean_avg);
 	System.out.printf("Average endstate max:\t \t %.2f \n", max_avg);
 	System.out.printf("Average endstate min:\t \t %.2f \n", min_avg);
-	System.out.printf("Final proportion greater than starting median:\t %.3f \n", median_proportion);
-	System.out.printf("Final proportion greater than starting average: %.3f \n", avg_proportion);
+	System.out.printf("Final population proportion greater than starting median:\t %.3f \n", median_proportion);
+	System.out.printf("Final population proportion greater than starting average: %.3f \n", avg_proportion);
 	
-	// if median is at least 5% greater than the mean, print
-	// skew left message.
-	if ((median_avg - mean_avg) > 
-	    (0.05*mean_avg)) {
-	    System.out.println("Median > mean. Could be skewed left.");
-	}
-	// if median as at least 5% less than the mean, print skew
-	// right message.
-	else if ((mean_avg - median_avg) > 
-		 (0.05*mean_avg)) {
-	    System.out.println("Median < mean. Could be skewed right.");
-	}
 
-	System.out.println("**************************************");
-	System.out.println("**************************************");
-	System.out.println("");
-	System.out.println("");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
+	System.out.println("\\\\");
+	System.out.println("\\\\");
     }
 
     void smallB(){
@@ -440,7 +416,7 @@ public class PDTrials {
 	    
 	    // build the game board
 	    Board game = new Board(players, space_horizon);
-	    //	    System.out.println("Start");
+	    //	    System.out.println("Start\\\\");
 	    //    game.printSummaryStats();
 	    starts[t] = game.getSummaryStats();
 	    starts[t][4] = game.percentGreaterEqualThan(starts[t][1]);
@@ -456,7 +432,7 @@ public class PDTrials {
 
 	    // print the end state of the game and store these stats
 	    // in array
-	    //  System.out.println("Finish");
+	    //  System.out.println("Finish\\\\");
 	    //	    game.printSummaryStats();
 	    results[t] = game.getSummaryStats();
 	    results[t][4] = game.percentGreaterEqualThan(starts[t][1]);
@@ -491,9 +467,9 @@ public class PDTrials {
 	
 	// Print summary of games
 	
-	System.out.println("**************************************");
-	System.out.println("**************************************");
-	
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
+	System.out.printf("Summary of games for the following population: \\\\ \n");
 	System.out.printf("%.3f very small certainty values \n",
 			  deviant_ratio);
 	System.out.printf("Average startstate median:\t %.2f \n",
@@ -533,8 +509,8 @@ public class PDTrials {
 
 	// Print summary of games
 
-	System.out.println("**************************************");
-	System.out.println("**************************************");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
 
 	System.out.printf("%.3f very small certainty values \n",
 			  deviant_ratio);
@@ -544,26 +520,14 @@ public class PDTrials {
 	System.out.printf("Average endstate mean:\t \t %.2f \n",mean_avg);
 	System.out.printf("Average endstate max:\t \t %.2f \n", max_avg);
 	System.out.printf("Average endstate min:\t \t %.2f \n", min_avg);
-	System.out.printf("Final proportion greater than starting median:\t %.3f \n", median_proportion);
-	System.out.printf("Final proportion greater than starting average: %.3f \n", avg_proportion);
+	System.out.printf("Final population proportion greater than starting median:\t %.3f \n", median_proportion);
+	System.out.printf("Final population proportion greater than starting average: %.3f \n", avg_proportion);
 
-	// if median is at least 5% greater than the mean, print
-	// skew left message.
-	if ((median_avg - mean_avg) > 
-	    (0.05*mean_avg)) {
-	    System.out.println("Median > mean. Could be skewed left.");
-	}
-	// if median as at least 5% less than the mean, print skew
-	// right message.
-	else if ((mean_avg - median_avg) > 
-		 (0.05*mean_avg)) {
-	    System.out.println("Median < mean. Could be skewed right.");
-	}
 
-	System.out.println("**************************************");
-	System.out.println("**************************************");
-	System.out.println("");
-	System.out.println("");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
+	System.out.println("\\\\");
+	System.out.println("\\\\");
     
 
     }
@@ -632,7 +596,7 @@ public class PDTrials {
 	    
 	    // build the game board
 	    Board game = new Board(players, space_horizon);
-	    //	    System.out.println("Start");
+	    //	    System.out.println("Start\\\\");
 	    //   game.printSummaryStats();
 	    starts[t] = game.getSummaryStats();
 	    starts[t][4] = game.percentGreaterEqualThan(starts[t][1]);
@@ -648,7 +612,7 @@ public class PDTrials {
 
 	    // print the end state of the game and store these stats
 	    // in array
-	    //    System.out.println("Finish.");
+	    //    System.out.println("Finish.\\\\");
 	    //	    game.printSummaryStats();
 	    results[t] = game.getSummaryStats();
 	    results[t][4] = game.percentGreaterEqualThan(starts[t][1]);
@@ -679,10 +643,10 @@ public class PDTrials {
 	
 	// Print summary of games
 	
-	System.out.println("**************************************");
-	System.out.println("**************************************");
-	
-	System.out.printf("Some very large certainty values, some small.\n");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
+	System.out.printf("Summary of games for the following population: \\\\ \n");
+	System.out.printf("Some very large certainty values, some small.\n\\\\");
 	
 	System.out.printf("Average startstate median:\t %.2f \n",
 			  median_avg_start);
@@ -722,10 +686,10 @@ public class PDTrials {
 
 	// Print summary of games
 
-	System.out.println("**************************************");
-	System.out.println("**************************************");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
 
-	System.out.printf("Some very large certainty values, some small. \n");
+	System.out.printf("Some very large certainty values, some small. \n\\\\");
 
 	
 	System.out.printf("Average endstate median: \t %.2f \n",median_avg);
@@ -733,26 +697,13 @@ public class PDTrials {
 	System.out.printf("Average endstate max:\t \t %.2f \n", max_avg);
 	System.out.printf("Average endstate min:\t \t %.2f \n", min_avg);
 
-	System.out.printf("Final proportion greater than starting median:\t %.3f \n", median_proportion);
-	System.out.printf("Final proportion greater than starting average: %.3f \n", avg_proportion);
+	System.out.printf("Final population proportion greater than starting median:\t %.3f \n", median_proportion);
+	System.out.printf("Final population proportion greater than starting average: %.3f \n", avg_proportion);
 	
-	// if median is at least 5% greater than the mean, print
-	// skew left message.
-	if ((median_avg - mean_avg) > 
-	    (0.05*mean_avg)) {
-	    System.out.println("Median > mean. Could be skewed left.");
-	}
-	// if median as at least 5% less than the mean, print skew
-	// right message.
-	else if ((mean_avg - median_avg) > 
-		 (0.05*mean_avg)) {
-	    System.out.println("Median < mean. Could be skewed right.");
-	}
-
-	System.out.println("**************************************");
-	System.out.println("**************************************");
-	System.out.println("");
-	System.out.println("");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
+	System.out.println("\\\\");
+	System.out.println("\\\\");
 
     }
 
@@ -817,7 +768,7 @@ public class PDTrials {
 	    
 	    // build the game board
 	    Board game = new Board(players, space_horizon);
-	    //	    System.out.println("Start");
+	    //	    System.out.println("Start\\\\");
 	    //   game.printSummaryStats();
 	    starts[t] = game.getSummaryStats();
 	    starts[t][4] = game.percentGreaterEqualThan(starts[t][1]);
@@ -833,7 +784,7 @@ public class PDTrials {
 
 	    // print the end state of the game and store these stats
 	    // in array
-	    //    System.out.println("Finish.");
+	    //    System.out.println("Finish.\\\\");
 	    //	    game.printSummaryStats();
 	    results[t] = game.getSummaryStats();
 	    results[t][4] = game.percentGreaterEqualThan(starts[t][1]);
@@ -865,10 +816,10 @@ public class PDTrials {
 	
 	// Print summary of games
 	
-	System.out.println("**************************************");
-	System.out.println("**************************************");
-	
-	System.out.printf("All very large or small.\n");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
+	System.out.printf("Summary of games for the following population: \\\\ \n");
+	System.out.printf("All certainty values are very large or very  small.\n\\\\");
 	
 	System.out.printf("Average startstate median:\t %.2f \n",
 			  median_avg_start);
@@ -908,36 +859,24 @@ public class PDTrials {
 
 	// Print summary of games
 
-	System.out.println("**************************************");
-	System.out.println("**************************************");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
 
-	System.out.printf("All very small or very large \n");
+	System.out.printf("All certainty values are very large or very small. \n\\\\");
 	
 	System.out.printf("Average endstate median: \t %.2f \n",median_avg);
 	System.out.printf("Average endstate mean: \t \t %.2f \n",mean_avg);
 	System.out.printf("Average endstate max:\t \t %.2f \n", max_avg);
 	System.out.printf("Average endstate min:\t \t %.2f \n", min_avg);
 
-	System.out.printf("Final proportion greater than starting median:\t %.3f \n", median_proportion);
-	System.out.printf("Final proportion greater than starting average: %.3f \n", avg_proportion);
+	System.out.printf("Final population proportion greater than starting median:\t %.3f \n", median_proportion);
+	System.out.printf("Final population proportion greater than starting average: %.3f \n", avg_proportion);
 	
-	// if median is at least 5% greater than the mean, print
-	// skew left message.
-	if ((median_avg - mean_avg) > 
-	    (0.05*mean_avg)) {
-	    System.out.println("Median > mean. Could be skewed left.");
-	}
-	// if median as at least 5% less than the mean, print skew
-	// right message.
-	else if ((mean_avg - median_avg) > 
-		 (0.05*mean_avg)) {
-	    System.out.println("Median < mean. Could be skewed right.");
-	}
 
-	System.out.println("**************************************");
-	System.out.println("**************************************");
-	System.out.println("");
-	System.out.println("");
+	System.out.println("**************************************\\\\");
+	System.out.println("**************************************\\\\");
+	System.out.println("\\\\");
+	System.out.println("\\\\");
 
     }
 
