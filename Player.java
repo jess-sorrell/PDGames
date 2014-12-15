@@ -35,8 +35,10 @@ public class Player
     }
 
     // Constructor
-    public Player (int life_points, float misanthropy, float certainty, 
-		   int memory_span, float optimism, Random prng){
+    public Player (int life_points, float misanthropy, 
+		   float certainty, int memory_span, float optimism, 
+		   Random prng){
+
 	this.total_life = life_points;
 	this.life_points = life_points;
 	this.misanthropy = misanthropy;
