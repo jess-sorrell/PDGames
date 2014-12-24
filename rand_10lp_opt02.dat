@@ -1,0 +1,110 @@
+**************************************\\
+**************************************\\
+Summary of games for the following population: \\ 
+Certainties ranging from .5 to 1.5, uniformly distributed 
+\\Average startstate median:	 1.50 
+Average startstate mean:	 1.50 
+Average startstate max:	 	 2.00 
+Average startstate min:	 	 1.00 
+Starting proportion greater than starting avg: 0.500 
+**************************************\\
+**************************************\\
+Certainties ranging from .5 to 1.5, uniformly distributed 
+\\Average endstate median:	 1.39 
+Average endstate mean:	 	 1.41 
+Average endstate max:	 	 2.30 
+Average endstate min:	 	 0.60 
+Final population proportion greater than starting median:	 0.388 
+Final population proportion greater than starting average: 0.388 
+**************************************\\
+**************************************\\
+\\
+\\
+**************************************\\
+**************************************\\
+Summary of games for the following population: \\ 
+0.250 very large certainty values
+Average startstate median:	 1.64 
+Average startstate mean:	 1.83 
+Average startstate max:	 	 3.50 
+Average startstate min:	 	 1.00 
+Starting proportion greater than starting avg: 0.500 
+**************************************\\
+**************************************\\
+0.250 very large certainty values 
+Average endstate median:	 1.40 
+Average endstate mean:	 	 1.45 
+Average endstate max:	 	 3.35 
+Average endstate min:	 	 0.62 
+Final population proportion greater than starting median:	 0.271 
+Final population proportion greater than starting average: 0.136 
+**************************************\\
+**************************************\\
+\\
+\\
+**************************************\\
+**************************************\\
+Summary of games for the following population: \\ 
+0.250 very small certainty values 
+Average startstate median:	 1.36 
+Average startstate mean:	 1.28 
+Average startstate max:	 	 2.00 
+Average startstate min:	 	 0.00 
+Starting proportion greater than starting avg: 0.500 
+**************************************\\
+**************************************\\
+0.250 very small certainty values 
+Average endstate median:	 1.17 
+Average endstate mean:	 	 1.10 
+Average endstate max:	 	 2.28 
+Average endstate min:	 	 0.00 
+Final population proportion greater than starting median:	 0.352 
+Final population proportion greater than starting average: 0.414 
+**************************************\\
+**************************************\\
+\\
+\\
+**************************************\\
+**************************************\\
+Summary of games for the following population: \\ 
+Some very large certainty values, some small.
+\\Average startstate median:	 1.50 
+Average startstate mean:	 1.62 
+Average startstate max:	 	 3.50 
+Average startstate min:	 	 0.00 
+Starting proportion greater than starting avg: 0.500 
+**************************************\\
+**************************************\\
+Some very large certainty values, some small. 
+\\Average endstate median: 	 1.05 
+Average endstate mean: 	 	 1.05 
+Average endstate max:	 	 3.40 
+Average endstate min:	 	 0.00 
+Final population proportion greater than starting median:	 0.231 
+Final population proportion greater than starting average: 0.172 
+**************************************\\
+**************************************\\
+\\
+\\
+**************************************\\
+**************************************\\
+Summary of games for the following population: \\ 
+All certainty values are very large or very  small.
+\\Average startstate median:	 1.00 
+Average startstate mean:	 1.75 
+Average startstate max:	 	 3.50 
+Average startstate min:	 	 0.00 
+Starting proportion greater than starting avg: 0.500 
+**************************************\\
+**************************************\\
+All certainty values are very large or very small. 
+\\Average endstate median: 	 0.52 
+Average endstate mean: 	 	 0.64 
+Average endstate max:	 	 3.52 
+Average endstate min:	 	 0.00 
+Final population proportion greater than starting median:	 0.116 
+Final population proportion greater than starting average: 0.061 
+**************************************\\
+**************************************\\
+\\
+\\

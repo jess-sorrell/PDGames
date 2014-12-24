@@ -1,0 +1,106 @@
+**************************************
+**************************************
+Certainties ranging from .5 to 1.5, uniformly distributed 
+Average startstate median:	 1.50 
+Average startstate mean:	 1.50 
+Average startstate max:	 	 2.00 
+Average startstate min:	 	 1.00 
+Starting proportion greater than starting avg: 0.500 
+**************************************
+**************************************
+Certainties ranging from .5 to 1.5, uniformly distributed 
+Average endstate median:	 1.75 
+Average endstate mean:	 	 1.74 
+Average endstate max:	 	 2.66 
+Average endstate min:	 	 0.79 
+Final proportion greater than starting median:	 0.774 
+Final proportion greater than starting average: 0.774 
+**************************************
+**************************************
+
+
+**************************************
+**************************************
+0.250 very large certainty values
+Average startstate median:	 1.64 
+Average startstate mean:	 1.83 
+Average startstate max:	 	 3.50 
+Average startstate min:	 	 1.00 
+Starting proportion greater than starting avg: 0.500 
+**************************************
+**************************************
+0.250 very large certainty values 
+Average endstate median:	 2.52 
+Average endstate mean:	 	 2.47 
+Average endstate max:	 	 3.98 
+Average endstate min:	 	 0.86 
+Final proportion greater than starting median:	 0.828 
+Final proportion greater than starting average: 0.730 
+**************************************
+**************************************
+
+
+**************************************
+**************************************
+0.250 very small certainty values 
+Average startstate median:	 1.36 
+Average startstate mean:	 1.28 
+Average startstate max:	 	 2.00 
+Average startstate min:	 	 0.00 
+Starting proportion greater than starting avg: 0.500 
+**************************************
+**************************************
+0.250 very small certainty values 
+Average endstate median:	 1.75 
+Average endstate mean:	 	 1.74 
+Average endstate max:	 	 2.63 
+Average endstate min:	 	 0.76 
+Final proportion greater than starting median:	 0.875 
+Final proportion greater than starting average: 0.918 
+**************************************
+**************************************
+
+
+**************************************
+**************************************
+Some very large certainty values, some small.
+Average startstate median:	 1.50 
+Average startstate mean:	 1.63 
+Average startstate max:	 	 3.50 
+Average startstate min:	 	 0.00 
+Starting proportion greater than starting avg: 0.500 
+**************************************
+**************************************
+Some very large certainty values, some small. 
+Average endstate median: 	 2.80 
+Average endstate mean: 	 	 2.65 
+Average endstate max:	 	 4.04 
+Average endstate min:	 	 0.89 
+Final proportion greater than starting median:	 0.926 
+Final proportion greater than starting average: 0.887 
+Median > mean. Could be skewed left.
+**************************************
+**************************************
+
+
+**************************************
+**************************************
+All very large or small.
+Average startstate median:	 1.00 
+Average startstate mean:	 1.75 
+Average startstate max:	 	 3.50 
+Average startstate min:	 	 0.00 
+Starting proportion greater than starting avg: 0.500 
+**************************************
+**************************************
+All very small or very large 
+Average endstate median: 	 3.07 
+Average endstate mean: 	 	 3.06 
+Average endstate max:	 	 4.06 
+Average endstate min:	 	 1.66 
+Final proportion greater than starting median:	 0.999 
+Final proportion greater than starting average: 0.998 
+**************************************
+**************************************
+
+
